@@ -3,6 +3,6 @@ import { pingHandler } from '../controllers/ping.controller.ts';
 
 const pingRouter =express.Router();
 
-pingRouter.get('/ping',middleware1,middleware2,pingHandler);
+pingRouter.get('/ping',pingHandler);
 
 export default pingRouter;
