@@ -34,3 +34,22 @@ export async function getHotelById(hotelId: number) {
     logger.info(`Hotel with id ${hotelId} retrieved successfully`, { name: "Hotel Repository" });   
     return hotel;
 }
+
+export async function getAllHotels() {
+    const hotels = await Hotel.findAll();
+    logger.info(`All hotels retrieved successfully`, { name: "Hotel Repository" });   
+    return hotels;
+}   
+
+export async function updateHotel(hotelId: number, hotelData: Partial<createHotelDTO>) {
+    const hotel = await getHotelById(hotelId);
+    await hotel.update(hotelData);
+    logger.info(`Hotel with id ${hotelId} updated successfully`, { name: "Hotel Repository" });   
+    return hotel;
+}
+
+export async function deleteHotel(hotelId: number) {
+    const hotel = await getHotelById(hotelId);
+    await hotel.destroy();
+    logger.info(`Hotel with id ${hotelId} deleted successfully`, { name: "Hotel Repository" });   
+}   
