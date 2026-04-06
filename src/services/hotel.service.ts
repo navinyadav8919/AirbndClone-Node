@@ -1,5 +1,5 @@
 import type { createHotelDTO } from "../dto/hotel.dto.ts";
-import { createHotel, getHotelById } from "../repositories/hotel.repository.ts";
+import { createHotel, getHotelById,getAllHotels,updateHotel,deleteHotel} from "../repositories/hotel.repository.ts";
 
 export async function createHotelService(hotelData: createHotelDTO) {
     const hotel = await createHotel(hotelData);

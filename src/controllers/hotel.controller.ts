@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from "express";
 import type { createHotelDTO } from "../dto/hotel.dto.ts";
-import { createHotelService, getHotelByIdService } from "../services/hotel.service.ts";
+import { createHotelService, getHotelByIdService,getAllHotelsService,updateHotelService,deleteHotelService} from "../services/hotel.service.ts";
 
 export async function createHotelController(req:Request, res:Response,next:NextFunction) {
     
