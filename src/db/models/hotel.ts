@@ -5,12 +5,12 @@ import sequelize from './sequelize.ts';
 class Hotel extends Model<InferAttributes<Hotel>, InferCreationAttributes<Hotel>> {
     declare id: CreationOptional<number>;
     declare name: string;
+    declare address: string;
     declare location: string;
-    declare price_per_night: number;
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
-    declare rating: number;
-    declare rating_count: number;
+    declare rating?: number;
+    declare rating_count?: number;
 }
 
 Hotel.init({
@@ -23,9 +23,9 @@ Hotel.init({
         type: DataTypes.STRING,
         allowNull: false
     },
-    price_per_night: {
-        type: DataTypes.DECIMAL(10, 2),
-        allowNull: false
+    address: {
+        type: DataTypes.STRING,
+        allowNull: true
     },
     location: {
         type: DataTypes.STRING,
@@ -45,7 +45,7 @@ Hotel.init({
     },
     rating_count: {
         type: DataTypes.INTEGER,
-        defaultValue: 0,
+        allowNull: true,
     }
 
 }, {

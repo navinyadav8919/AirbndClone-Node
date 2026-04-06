@@ -1,26 +1,18 @@
-import type { NextFunction,Request,Response } from "express";
-import { success } from "zod";
-import type { AppError } from "../utils/errors/app.error.ts";
+import type { NextFunction, Request, Response } from "express";
+import { AppError } from "../utils/errors/app.error.ts";
 
-export const genericErrorHandler = (err: AppError,req:Request,res:Response,next:NextFunction) =>{
+export const genericErrorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
+    console.error(err);
 
-    console.log(err);
-
-    if(err instanceof AppError){
-        res.status(err.statusCode).json({
-            success:false,
-            message: err.message
-        });
-    }
-    else{
-        res.status(500).json({
+    if (err instanceof AppError) {
+        return res.status(err.statusCode).json({
             success: false,
-            message: "Internal Server Error"
+            message: err.message,
         });
     }
 
-    res.status(err.statusCode).json({
+    return res.status(err?.statusCode || 500).json({
         success: false,
-        message: err.message
+        message: err?.message || "Internal Server Error",
     });
-}
+};
