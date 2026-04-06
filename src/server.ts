@@ -10,6 +10,8 @@ import { genericErrorHandler } from './middlewares/error.middleware.ts';
 import logger from './config/logger.config.ts';
 import { uuid } from 'zod';
 import { attachCorrelationIdMiddleware } from './middlewares/correlation.middleware.ts';
+import sequelize from './db/models/sequelize.ts';
+// import Hotel from './db/models/hotel.ts';
 // import { z } from 'zod';
 
 
@@ -34,9 +36,11 @@ app.use('/api/v1', v2Router);
 app.use(genericErrorHandler);
 
 
-app.listen(ServerConfig.PORT, () => {
+app.listen(ServerConfig.PORT, async () => {
     logger.info(`server is running on http://localhost:${ServerConfig.PORT}`);
     logger.info(`Press ctrl+c to stop the server`,{"name": "dev server"});
 
-   
+    await sequelize.authenticate();
+    logger.info("Database connection has been established successfully.");
+
 });
