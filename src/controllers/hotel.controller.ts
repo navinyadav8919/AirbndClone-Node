@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import type { createHotelDTO } from "../dto/hotel.dto.ts";
 import { createHotelService, getHotelByIdService,getAllHotelsService,updateHotelService,deleteHotelService} from "../services/hotel.service.ts";
+import { StatusCodes } from "http-status-codes";
 
 export async function createHotelController(req:Request, res:Response,next:NextFunction) {
     
@@ -8,7 +9,7 @@ export async function createHotelController(req:Request, res:Response,next:NextF
     const hotel = await createHotelService(req.body as createHotelDTO);
 
     //2. send the response back to client
-    res.status(201).json({
+    res.status(StatusCodes.CREATED).json({
         message: "Hotel created successfully",
         data: {
             id: hotel.id,
@@ -30,7 +31,7 @@ export async function getHotelByIdController(req:Request, res:Response,next:Next
     const hotel = await getHotelByIdService(Number(req.params.id));    
 
     //2. send the response back to client
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
         message: "Hotel details retrieved successfully",
         data: {
             id: hotel.id,
@@ -51,7 +52,7 @@ export async function getAllHotelsController(req:Request, res:Response,next:Next
     const hotels = await getAllHotelsService();
 
     //2. send the response back to client
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
         message: "Hotel details retrieved successfully",
         data: hotels,       
         success: true
@@ -63,7 +64,7 @@ export async function updateHotelController(req:Request, res:Response,next:NextF
     const hotel = await updateHotelService(Number(req.params.id), req.body as createHotelDTO);  
 
     //2. send the response back to client
-    res.status(200).json({  
+    res.status(StatusCodes.OK).json({  
         message: "Hotel details updated successfully",
         data: {
             id: hotel.id,       
@@ -84,7 +85,7 @@ export async function deleteHotelController(req:Request, res:Response,next:NextF
     await deleteHotelService(Number(req.params.id));    
 
     //2. send the response back to client
-    res.status(200).json({
+    res.status(StatusCodes.OK).json({
         message: "Hotel deleted successfully",
         success: true
     });

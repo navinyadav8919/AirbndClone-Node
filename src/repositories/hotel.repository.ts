@@ -36,7 +36,12 @@ export async function getHotelById(hotelId: number) {
 }
 
 export async function getAllHotels() {
-    const hotels = await Hotel.findAll();
+    const hotels = await Hotel.findAll({
+        where: {
+            deletedAt: null
+        }
+
+    });
     logger.info(`All hotels retrieved successfully`, { name: "Hotel Repository" });   
     return hotels;
 }   
@@ -48,8 +53,14 @@ export async function updateHotel(hotelId: number, hotelData: Partial<createHote
     return hotel;
 }
 
-export async function deleteHotel(hotelId: number) {
-    const hotel = await getHotelById(hotelId);
-    await hotel.destroy();
-    logger.info(`Hotel with id ${hotelId} deleted successfully`, { name: "Hotel Repository" });   
-}   
+export async function softDeleteHotel(hotelId: number) {
+    const hotel = await Hotel.findByPk(hotelId);
+    if (!hotel) {
+        logger.error(`Hotel with id ${hotelId} not found for deletion`, { name: "Hotel Repository" });
+        throw new NotFoundError(`Hotel with id ${hotelId} not found for deletion`);
+    }   
+    hotel.deletedAt = new Date();
+    await hotel.save();
+    logger.info(`Hotel with id ${hotelId} soft deleted successfully`, { name: "Hotel Repository" });   
+    return true;
+}
